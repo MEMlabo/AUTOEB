@@ -1,0 +1,8 @@
+autopep8==2.0.1
+mypy==1.0.1
+mypy-extensions==1.0.0
+pycodestyle==2.10.0
+regex==2022.10.31
+tomli==2.0.1
+types-regex==2022.10.31.6
+typing_extensions==4.5.0

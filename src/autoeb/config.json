@@ -1,0 +1,4 @@
+{
+  "iqtree_command": "iqtree2",
+  "consel_dir": "$PATH"
+}

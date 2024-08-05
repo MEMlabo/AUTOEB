@@ -1,0 +1,3 @@
+from .command_arguments import CommandArguments
+
+__version__ = "1.0.0"

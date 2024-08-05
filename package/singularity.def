@@ -1,0 +1,55 @@
+Bootstrap: docker
+From: python:3.11.2-slim-bullseye
+
+%files
+  ./src/autoeb/ /usr/src/autoeb/autoeb
+  ./src/requirements.txt /usr/src/autoeb/
+
+%post
+  apt update
+  apt upgrade -y
+  apt install -y wget git make gcc
+
+  # Initialize python
+  echo "Installing autoeb"
+  cd /usr/src/autoeb/
+  ls
+  python3 -m venv .venv
+  . .venv/bin/activate
+  python3 -m pip install --upgrade pip
+  python3 -m pip install -r requirements.txt
+  deactivate
+  cd ../
+
+  # Installing IQ-TREE2
+  mkdir iqtree
+  cd iqtree
+  echo "Installing IQ-TREE2"
+  wget https://github.com/iqtree/iqtree2/releases/download/v2.2.0/iqtree-2.2.0-Linux.tar.gz
+  tar -xzf iqtree-2.2.0-Linux.tar.gz
+  rm iqtree-2.2.0-Linux.tar.gz
+  mv iqtree-2.2.0-Linux/bin/iqtree2 /usr/local/bin/
+  cd ../
+
+  # Installing CONSEL
+  cd /usr/src/
+  git clone https://github.com/shimo-lab/consel.git
+  cd consel
+  git reset --hard 1a532a4fe9e7d4e9101f2bbe64613f3b0cfc6274
+  cd src
+  make
+  make install
+  cd ../bin
+  mv * /usr/local/bin/
+  cd ../../
+
+  apt purge -y wget git make gcc
+  apt autoremove -y
+  apt clean
+  
+%environment
+  . /usr/src/autoeb/.venv/bin/activate
+  # alias of autoeb="python3 -m autoeb"
+  export PYTHONPATH=/usr/src/autoeb
+%runscript
+    python3 -m autoeb $@

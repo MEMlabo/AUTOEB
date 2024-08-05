@@ -1,0 +1,9 @@
+*           text=auto
+*.txt       text
+*.md        text
+*.ps1       text eol=crlf
+*.sh        text eol=lf
+*.py        text eol=lf
+*.tree      text eol=lf
+*.def       text eol=lf
+*.sif       -text
