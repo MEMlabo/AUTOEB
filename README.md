@@ -156,7 +156,7 @@ Execute `scripts/exec_autoeb.ps1`.
 
 | Name | Full Name |   Type / Default   | Required | Description                                                                                                                                                                                                     |
 | ---: | :-------: | :----------------: | :------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|      | `--seed`  | int (\>= 0) / `-1` |    -     | Spcifies the seed of RELL-bootstrap by the makermt. If `0`, system time is used for seed (each bipartition has different values). If `-1` (default), random value is used (each bipartition has the same value) |
+|      | `--seed`  | int (\>= 0) / `-1` |    -     | Specifies the seed of RELL-bootstrap by the makermt. If `0`, system time is used for seed (each bipartition has different values). If `-1` (default), random value is used (each bipartition has the same value) |
 
 
 #### Output options
@@ -169,8 +169,8 @@ Execute `scripts/exec_autoeb.ps1`.
 
 ### Examples of usage
 
-The most usage of AUTOEB, sequence file `seq.fasta` and tree file `ml.treefile` are specified files.
-`LG+C60+F+G` is speficied as substitution model.
+In the most common use case of AUTOEB, sequence file `seq.fasta` and tree file `ml.treefile` are specified files.
+`LG+C60+F+G` is specified as substitution model.
 Output files are contained at `output_autoeb` directory.
 ```bash
 singularity run autoeb.sif -s seq.fasta -t ml.treefile -m LG+C60+F+G -o output_autoeb
