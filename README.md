@@ -4,6 +4,7 @@
 Technical documents are [here](docs/Index.md).
 
 - [AUTOEB](#autoeb)
+  - [Cication](#cication)
   - [Dependencies](#dependencies)
   - [Installation](#installation)
     - [By Singularity](#by-singularity)
@@ -22,6 +23,10 @@ Technical documents are [here](docs/Index.md).
       - [Output options](#output-options)
     - [Examples of usage](#examples-of-usage)
   - [Output](#output)
+
+## Cication
+
+Under preparation
 
 ## Dependencies
 
@@ -154,8 +159,8 @@ Execute `scripts/exec_autoeb.ps1`.
 
 #### CONSEL options
 
-| Name | Full Name |   Type / Default   | Required | Description                                                                                                                                                                                                     |
-| ---: | :-------: | :----------------: | :------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Name | Full Name |   Type / Default   | Required | Description                                                                                                                                                                                                      |
+| ---: | :-------: | :----------------: | :------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |      | `--seed`  | int (\>= 0) / `-1` |    -     | Specifies the seed of RELL-bootstrap by the makermt. If `0`, system time is used for seed (each bipartition has different values). If `-1` (default), random value is used (each bipartition has the same value) |
 
 
