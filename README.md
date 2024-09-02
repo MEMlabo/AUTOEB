@@ -4,7 +4,7 @@
 Technical documents are [here](docs/Index.md).
 
 - [AUTOEB](#autoeb)
-  - [Cication](#cication)
+  - [Citation](#citation)
   - [Dependencies](#dependencies)
   - [Installation](#installation)
     - [By Singularity](#by-singularity)
@@ -24,7 +24,7 @@ Technical documents are [here](docs/Index.md).
     - [Examples of usage](#examples-of-usage)
   - [Output](#output)
 
-## Cication
+## Citation
 
 Under preparation
 
