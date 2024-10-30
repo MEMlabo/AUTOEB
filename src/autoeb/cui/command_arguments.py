@@ -1,8 +1,8 @@
 from argparse import ArgumentError, ArgumentParser, Namespace
 import os
 
-from ..consts import OUT_FORMAT_BIN, OUT_FORMAT_SRC
 from ..nnigen.io import TreeIOHandler, treetype
+from ..output_formatter import OutputFormatter
 from ..value_range import ValueRange
 
 
@@ -26,7 +26,7 @@ class CommandArguments:
         """
         result: str = self.__namespace.seq
         if not os.path.isfile(result):
-            raise ArgumentError(None, f"sequence file '{result}' does not exists")
+            raise ArgumentError(None, f"Sequence file '{result}' does not exists")
         return os.path.abspath(result)
 
     @property
@@ -35,7 +35,7 @@ class CommandArguments:
         """
         result: str = self.__namespace.tree
         if not os.path.isfile(result):
-            raise ArgumentError(None, f"tree file '{result}' does not exists")
+            raise ArgumentError(None, f"Tree file '{result}' does not exists")
         return os.path.abspath(result)
 
     @property
@@ -50,7 +50,7 @@ class CommandArguments:
         """
         result: int = self.__namespace.bootstrap
         if result < 1000:
-            raise ArgumentError(None, "value must be greater or equal to 1000")
+            raise ArgumentError(None, "Value of '-b' option must be greater or equal to 1000")
         return result
 
     @property
@@ -59,7 +59,7 @@ class CommandArguments:
         """
         result: int = self.__namespace.seed
         if result < -1:
-            raise ArgumentError(None, "value must be greater or equal to -1")
+            raise ArgumentError(None, "Value of '--seed' option must be greater or equal to -1")
         return result
 
     @property
@@ -83,7 +83,7 @@ class CommandArguments:
         """
         result: float = self.__namespace.sig_level
         if result < 0 or 1 < result:
-            raise ArgumentError(None, "value must be within the range 0 to 1")
+            raise ArgumentError(None, "Value of '--sig-level' option must be within the range 0 to 1")
         return result
 
     @property
@@ -99,14 +99,17 @@ class CommandArguments:
         """
         result: int = self.__namespace.thread
         if result < 1:
-            raise ArgumentError(None, "value must be greater or equal to 1")
+            raise ArgumentError(None, "Value of '-T' option must be greater or equal to 1")
         return result
 
     @property
     def out_format(self) -> str:
         """出力フォーマットを取得します。
         """
-        return self.__namespace.out_format
+        result: str = self.__namespace.out_format
+        if not OutputFormatter.check_format(result):
+            raise ArgumentError(None, "Invalid format by '-f' option was detected")
+        return result
 
     @property
     def iqtree_params(self) -> str | None:
@@ -114,7 +117,7 @@ class CommandArguments:
         """
         result: str | None = self.__namespace.iqtree_param
         if not (result is None) and not os.path.isfile(result):
-            raise ArgumentError(None, f"text file '{result}' does not exist")
+            raise ArgumentError(None, f"Text file '{result}' does not exist")
         return result
 
     @property
@@ -166,7 +169,7 @@ class CommandArguments:
         parser.add_argument("-b", "--bootstrap", default=10_0000, type=int, help="replicates of RELL bootstrap (>=1000, default=100,000)", metavar="INT")
         parser.add_argument("--seed", default=-1, type=int, help="seed of random value (>= -1). if larger than 0, specified value is used for seed (default=-1)", metavar="INT")
         parser.add_argument("-o", "--out", type=str, required=True, help="destination folder", metavar="DIR")
-        parser.add_argument("-f", "--out-format", default=f"{OUT_FORMAT_SRC}/{OUT_FORMAT_BIN}", type=str, help=f"format of branch name (default='{OUT_FORMAT_SRC}/{OUT_FORMAT_BIN}')", metavar="STR")
+        parser.add_argument("-f", "--out-format", default='{src}/{bin}', type=str, help="format of branch name (default='{src}/{bin}')", metavar="STR")
         parser.add_argument("-T", "--thread", default=1, type=int, help="numbmer of threads IQ-TREE uses (default=1)", metavar="INT")
         parser.add_argument("--iqtree-verbose", action="store_true", help="redirect IQ-TREE stdout")
         parser.add_argument("--output-tmp-files", action="store_true", help="output files IQ-TREE and CONSEL generated")

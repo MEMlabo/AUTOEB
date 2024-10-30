@@ -1,6 +1,3 @@
-OUT_FORMAT_SRC: str = "{src}"
-OUT_FORMAT_BIN: str = "{bin}"
-OUT_FORMAT_P: str = "{p}"
 RESULT_OK: str = "1"
 RESULT_NG: str = "0"
 INFILE_SEQ: str = "seq.fasta"

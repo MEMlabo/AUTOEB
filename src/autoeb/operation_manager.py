@@ -1,7 +1,6 @@
 from copy import deepcopy
 from datetime import datetime
 from distutils.file_util import copy_file
-from genericpath import isfile
 import glob
 from io import TextIOWrapper
 from multiprocessing.pool import ThreadPool
@@ -18,6 +17,7 @@ from .consts import *
 from .cui import CommandArguments
 from .iqtree_manager import IqtreeManager
 from .nnigen import read_tree, Tree
+from .output_formatter import OutputFormatter
 from .slh_data import SlhData
 from .summary import SummaryInfo
 from .value_range import ValueRange
@@ -62,6 +62,8 @@ class OperationManager:
         if not self.__args.iqtree_params is None:
             iqtree_manager.load_other_params(self.__args.iqtree_params)
         consel_manager = ConselManager(self.__config)
+
+        formatter = OutputFormatter(self.__args.out_format)
 
         if not self.__args.redo and os.path.isfile(SITELH_PATH):
             print(f"Site likelyhood calculation is skipped ('{OUTFILE_SITELH}' already exists)", file=self.__logger)
@@ -145,7 +147,7 @@ class OperationManager:
             # parse CATPV file
             catpv = CatpvResult.load(self.__args.get_out_file_path(f"{bipartition_index}.catpv"))[0]
             # change branch name
-            current.name = self.__format_output_branch_name(self.__args.out_format, current.name, self.__args.sig_level, catpv)
+            current.name = formatter.format(current.name, catpv, self.__args.sig_level)
             nni: list[Tree] = [Tree(nni.find_root()) for nni in current.get_nni()]
             if self.__args.sig_level <= catpv.stat_nni1.au:
                 valid_nni.append((catpv.stat_nni1.au, nni[1]))
@@ -290,24 +292,6 @@ class OperationManager:
 
         operation_end = datetime.now()
         print(f"  Operation No. {branch_index} / {branch_count - 1} finished in {(operation_end - operation_start)}", file=self.__logger)
-
-    @staticmethod
-    def __format_output_branch_name(fmt: str, src: str, sig_level: float, catpv: CatpvResult) -> str:
-        """出力ツリーの枝名を取得します。
-
-        Args:
-            fmt (str): 枝名のフォーマット
-            src (str): 元の枝名
-            sig_level (float): 有意水準
-            catpv (CatpvResult): IQTREEファイルの情報
-
-        Returns:フォーマットされた枝名
-        """
-        max_p: float = max(catpv.stat_nni1.au, catpv.stat_nni2.au)
-        result: str = fmt.replace(OUT_FORMAT_SRC, src)\
-                         .replace(OUT_FORMAT_BIN, RESULT_OK if sig_level > max_p else RESULT_NG)\
-                         .replace(OUT_FORMAT_P, str(max_p))
-        return result
 
     def __iterate_all_tmpfiles(self, index: int) -> Generator[str, None, None]:
         """インデックスに対応する中間ファイルを全て列挙します。

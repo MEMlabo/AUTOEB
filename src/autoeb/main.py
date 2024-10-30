@@ -1,3 +1,4 @@
+from argparse import ArgumentError
 from sys import stderr
 
 from .cui import CommandArguments
@@ -19,6 +20,11 @@ def main(args: list[str]) -> int:
         return 1
     arguments = CommandArguments(args)
     manager = OperationManager(arguments)
-    manager.execute()
+
+    try:
+        manager.execute()
+    except ArgumentError as e:
+        print(e.message, file=stderr)
+        return 1
 
     return 0

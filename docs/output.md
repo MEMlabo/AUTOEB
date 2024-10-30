@@ -30,13 +30,23 @@ Represents the mapped ML-tree.
 ### Bipartition format
 
 `-f`, `--out-format` specifies the format of bipartition.
-Format string has some special commands.
+Some keywords of format were replaced by specified values from tests below.
+You should be careful that these keywords are recognized as "case-sensitive".
 
 - `{src}`: Replaced by the evaluation value in source tree file (BP, UFBP, SH-aLRT etc.)
-- `{bin}`: Replaced by whether the bipartition is supported or not. 
-  `1` represents the bipartition is supported by AU-test (All NNI trees are rejected).
-  `0` represents the bipartition is not supported (Any NNI trees are not rejected)
-- `{p}`: Replaced by the max *p*-value of NNI trees
+- `{bin}`, `{au-bin}`: Replaced by whether the 0/1 value representing the bipartition was supported by AU test or not.
+  - `1` represents the bipartition was supported (all alternative trees were rejected).
+  - `0` represents the bipartition was not supported (any alternative trees were not rejected).
+- `{p}`, `{au-p}`: Replaced by the max *p*-value by AU test of alternative trees.
+- `{sh-bin}`: 0/1 value representing the bipartition was supported by SH test.
+- `{sh-p}`: Max *p*-value by SH test of alternative trees.
+- `{kh-bin}`: 0/1 value representing the bipartition was supported by KH test.
+- `{kh-p}`: Max *p*-value by KH test of alternative trees.
+- `{wsh-bin}`: 0/1 value representing the bipartition was supported by weighted SH test.
+- `{wsh-p}`: Max *p*-value by weighted SH test of alternative trees.
+- `{wkh-bin}`: 0/1 value representing the bipartition was supported by weighted KH test.
+- `{wkh-p}`: Max *p*-value by weighted KH test of alternative trees.
+- `{dlnL}`: Minimum of observed log-likelihood difference between the ML tree and alternative trees.
 
 **Examples**
 
