@@ -2,6 +2,7 @@ from argparse import ArgumentError, ArgumentParser, Namespace
 import os
 
 from ..nnigen.io import TreeIOHandler, treetype
+from ..output_formatter import OutputFormatter
 from ..value_range import ValueRange
 
 
@@ -105,7 +106,10 @@ class CommandArguments:
     def out_format(self) -> str:
         """出力フォーマットを取得します。
         """
-        return self.__namespace.out_format
+        result: str = self.__namespace.out_format
+        if not OutputFormatter.check_format(result):
+            raise ArgumentError(None, "Invalid format by '-f' option was detected")
+        return result
 
     @property
     def iqtree_params(self) -> str | None:
