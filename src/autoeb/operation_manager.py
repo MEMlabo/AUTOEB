@@ -1,7 +1,6 @@
 from copy import deepcopy
 from datetime import datetime
 from distutils.file_util import copy_file
-from genericpath import isfile
 import glob
 from io import TextIOWrapper
 from multiprocessing.pool import ThreadPool
@@ -303,10 +302,10 @@ class OperationManager:
 
         Returns:フォーマットされた枝名
         """
-        max_p: float = max(catpv.stat_nni1.au, catpv.stat_nni2.au)
-        result: str = fmt.replace(OUT_FORMAT_SRC, src)\
-                         .replace(OUT_FORMAT_BIN, RESULT_OK if sig_level > max_p else RESULT_NG)\
-                         .replace(OUT_FORMAT_P, str(max_p))
+        max_au_p: float = max(catpv.stat_nni1.au, catpv.stat_nni2.au)
+        au_bin: str = RESULT_OK if sig_level > max_au_p else RESULT_NG
+
+        result: str = fmt.format(src=src, bin=au_bin, p=max_au_p)
         return result
 
     def __iterate_all_tmpfiles(self, index: int) -> Generator[str, None, None]:

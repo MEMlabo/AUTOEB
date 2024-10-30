@@ -1,7 +1,6 @@
 from argparse import ArgumentError, ArgumentParser, Namespace
 import os
 
-from ..consts import OUT_FORMAT_BIN, OUT_FORMAT_SRC
 from ..nnigen.io import TreeIOHandler, treetype
 from ..value_range import ValueRange
 
@@ -166,7 +165,7 @@ class CommandArguments:
         parser.add_argument("-b", "--bootstrap", default=10_0000, type=int, help="replicates of RELL bootstrap (>=1000, default=100,000)", metavar="INT")
         parser.add_argument("--seed", default=-1, type=int, help="seed of random value (>= -1). if larger than 0, specified value is used for seed (default=-1)", metavar="INT")
         parser.add_argument("-o", "--out", type=str, required=True, help="destination folder", metavar="DIR")
-        parser.add_argument("-f", "--out-format", default=f"{OUT_FORMAT_SRC}/{OUT_FORMAT_BIN}", type=str, help=f"format of branch name (default='{OUT_FORMAT_SRC}/{OUT_FORMAT_BIN}')", metavar="STR")
+        parser.add_argument("-f", "--out-format", default='{src}/{bin}', type=str, help="format of branch name (default='{src}/{bin}')", metavar="STR")
         parser.add_argument("-T", "--thread", default=1, type=int, help="numbmer of threads IQ-TREE uses (default=1)", metavar="INT")
         parser.add_argument("--iqtree-verbose", action="store_true", help="redirect IQ-TREE stdout")
         parser.add_argument("--output-tmp-files", action="store_true", help="output files IQ-TREE and CONSEL generated")
