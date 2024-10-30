@@ -20,7 +20,11 @@ class NewickIOHandler(TreeIOHandler):
     def read_tree(self, stream: TextIO) -> Tree:
         src_text: str = stream.readline()
         end_index: int = src_text.index(';')
-        root: Node = NewickIOHandler.__read_tree_internal(src_text[:end_index])
+        tree_text: str = src_text[:end_index]
+        # trim root branch length
+        if tree_text[-1] != ')':
+            tree_text = tree_text[:_StringHelper.last_index(tree_text, ':')]
+        root: Node = NewickIOHandler.__read_tree_internal(tree_text)
         return Tree(root)
 
     @staticmethod
@@ -103,7 +107,7 @@ class NewickIOHandler(TreeIOHandler):
             Node: 読み込んだNodeのインスタンス
         """
         if text.count('(') != text.count(')'):
-            raise TreeFormatError()
+            raise TreeFormatError('Invalid newick format is detected. The number of parehtieses is invalid.')
         elements: list[str] = cls.__split_elements(text)
         return cls.__create_node(elements, None)
 
@@ -149,7 +153,7 @@ class NewickIOHandler(TreeIOHandler):
         # If parent is None, this method returns the Node instance which represents ROOT.
         else:
             if length < 3:
-                raise ValueError("The amount of Node must be larger than or equal to 3")
+                raise ValueError("The given tree must be unrooted")
             split_elements: list[tuple[str, float | None, str | None]]
             split_elements = [None] * length  # type: ignore
             for i in range(length):
