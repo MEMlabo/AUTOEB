@@ -26,7 +26,7 @@ class CommandArguments:
         """
         result: str = self.__namespace.seq
         if not os.path.isfile(result):
-            raise ArgumentError(None, f"sequence file '{result}' does not exists")
+            raise ArgumentError(None, f"Sequence file '{result}' does not exists")
         return os.path.abspath(result)
 
     @property
@@ -35,7 +35,7 @@ class CommandArguments:
         """
         result: str = self.__namespace.tree
         if not os.path.isfile(result):
-            raise ArgumentError(None, f"tree file '{result}' does not exists")
+            raise ArgumentError(None, f"Tree file '{result}' does not exists")
         return os.path.abspath(result)
 
     @property
@@ -50,7 +50,7 @@ class CommandArguments:
         """
         result: int = self.__namespace.bootstrap
         if result < 1000:
-            raise ArgumentError(None, "value must be greater or equal to 1000")
+            raise ArgumentError(None, "Value of '-b' option must be greater or equal to 1000")
         return result
 
     @property
@@ -59,7 +59,7 @@ class CommandArguments:
         """
         result: int = self.__namespace.seed
         if result < -1:
-            raise ArgumentError(None, "value must be greater or equal to -1")
+            raise ArgumentError(None, "Value of '--seed' option must be greater or equal to -1")
         return result
 
     @property
@@ -83,7 +83,7 @@ class CommandArguments:
         """
         result: float = self.__namespace.sig_level
         if result < 0 or 1 < result:
-            raise ArgumentError(None, "value must be within the range 0 to 1")
+            raise ArgumentError(None, "Value of '--sig-level' option must be within the range 0 to 1")
         return result
 
     @property
@@ -99,7 +99,7 @@ class CommandArguments:
         """
         result: int = self.__namespace.thread
         if result < 1:
-            raise ArgumentError(None, "value must be greater or equal to 1")
+            raise ArgumentError(None, "Value of '-T' option must be greater or equal to 1")
         return result
 
     @property
@@ -117,7 +117,7 @@ class CommandArguments:
         """
         result: str | None = self.__namespace.iqtree_param
         if not (result is None) and not os.path.isfile(result):
-            raise ArgumentError(None, f"text file '{result}' does not exist")
+            raise ArgumentError(None, f"Text file '{result}' does not exist")
         return result
 
     @property
