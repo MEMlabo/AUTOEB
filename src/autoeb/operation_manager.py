@@ -293,56 +293,6 @@ class OperationManager:
         operation_end = datetime.now()
         print(f"  Operation No. {branch_index} / {branch_count - 1} finished in {(operation_end - operation_start)}", file=self.__logger)
 
-    @staticmethod
-    def __format_output_branch_name(fmt: str, src: str, sig_level: float, catpv: CatpvResult) -> str:
-
-        # Formats of "fmt"
-        #
-        # {src}: Support values in given tree
-        # {bin}, {au-bin}: 0/1 value by AU test
-        # {p}, {au-p}: p-value of the alternative topology greater than the other by AU test
-        # {sh-bin}: 0/1 value by SH test
-        # {sh-p}: p-value of the alternative topology greater than the other by SH test
-        # {kh-bin}: 0/1 value by KH test
-        # {kh-p}: p-value of the alternative topology greater than the other by KH test
-        # {wsh-bin}: 0/1 value by weighted SH test
-        # {wsh-p}: p-value of the alternative topology greater than the other by weighted SH test
-        # {wkh-bin}: 0/1 value by weighted KH test
-        # {wkh-p}: p-value of the alternative topology greater than the other by weighted KH test
-        # {dlnL}: Observed log-likelihood difference of the alternative topology less than the other
-
-        max_au_p: float = max(catpv.stat_nni1.au, catpv.stat_nni2.au)
-        au_bin: str = RESULT_OK if sig_level > max_au_p else RESULT_NG
-        max_sh_p: float = max(catpv.stat_nni1.sh, catpv.stat_nni2.sh)
-        sh_bin: str = RESULT_OK if sig_level > max_sh_p else RESULT_NG
-        max_kh_p: float = max(catpv.stat_nni1.kh, catpv.stat_nni2.kh)
-        kh_bin: str = RESULT_OK if sig_level > max_kh_p else RESULT_NG
-        max_wsh_p: float = max(catpv.stat_nni1.wsh, catpv.stat_nni2.wsh)
-        wsh_bin: str = RESULT_OK if sig_level > max_wsh_p else RESULT_NG
-        max_wkh_p: float = max(catpv.stat_nni1.wkh, catpv.stat_nni2.wkh)
-        wkh_bin: str = RESULT_OK if sig_level > max_wkh_p else RESULT_NG
-        min_obs: float = max(catpv.stat_nni1.obs, catpv.stat_nni2.obs)
-
-        replace_dict: dict[str, object] = {
-            'src': src,
-            'bin': au_bin,
-            'p': max_au_p,
-            'au-bin': au_bin,
-            'au-p': max_au_p,
-            'sh-bin': sh_bin,
-            'sh-p': max_sh_p,
-            'kh-bin': kh_bin,
-            'kh-p': max_kh_p,
-            'wsh-bin': wsh_bin,
-            'wsh-p': max_wsh_p,
-            'wkh-bin': wkh_bin,
-            'wkh-p': max_wkh_p,
-            'dlnL': min_obs,
-        }
-
-        result: str = fmt.format(**replace_dict)
-        return result
-
     def __iterate_all_tmpfiles(self, index: int) -> Generator[str, None, None]:
         """インデックスに対応する中間ファイルを全て列挙します。
 
