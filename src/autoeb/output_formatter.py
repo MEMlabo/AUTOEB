@@ -20,6 +20,9 @@ class OutputFormatter:
         'wkh-bin',
         'wkh-p',
         'dlnL',
+        'pp',
+        'bp',
+        'mbp',
     }
 
     def __init__(self, format: str) -> None:
@@ -71,6 +74,9 @@ class OutputFormatter:
         # {wkh-bin}: 0/1 value by weighted KH test
         # {wkh-p}: p-value of the alternative topology greater than the other by weighted KH test
         # {dlnL}: Observed log-likelihood difference of the alternative topology less than the other
+        # {pp}: Bayesian posterior probability of the ML tree
+        # {bp}: Bootstrap probability of the ML tree
+        # {mbp}: Bootstrap probability of the ML tree calculated from the multiscale bootstrap
 
         max_au_p: float = max(catpv.stat_nni1.au, catpv.stat_nni2.au)
         au_bin: str = RESULT_OK if sig_level > max_au_p else RESULT_NG
@@ -99,6 +105,9 @@ class OutputFormatter:
             'wkh-bin': wkh_bin,
             'wkh-p': max_wkh_p,
             'dlnL': min_obs,
+            'pp': catpv.stat_ml.pp,
+            'bp': '{:.01f}'.format(catpv.stat_ml.brell * 100),
+            'mbp': '{:.01f}'.format(catpv.stat_ml.np * 100),
         }
 
         return self.__format.format(**replace_dict)
