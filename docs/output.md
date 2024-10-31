@@ -47,6 +47,9 @@ You should be careful that these keywords are recognized as "case-sensitive".
 - `{wkh-bin}`: 0/1 value representing the bipartition was supported by weighted KH test.
 - `{wkh-p}`: Max *p*-value by weighted KH test of alternative trees.
 - `{dlnL}`: Minimum of observed log-likelihood difference between the ML tree and alternative trees.
+- `{pp}`: Bayesian posterior probability (PP) of the ML tree calculated by BIC approximation.
+- `{bp}`: Bootstrap probability of the ML tree. This value obtained by CONSEL is multiplied by 100.
+- `{mbp}`: Bootstrap probability of the ML tree calculated by multiscale bootstrap. This value obtained by CONSEL is multiplied by 100.
 
 **Examples**
 
