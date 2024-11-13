@@ -1,28 +1,29 @@
-# AUTOEB
+# AUTOEB <!-- omit in toc -->
 **AU** **t**est **o**n **e**ach **b**ipartition
 
 Technical documents are [here](docs/Index.md).
 
-- [AUTOEB](#autoeb)
-  - [Citation](#citation)
-  - [Dependencies](#dependencies)
-  - [Installation](#installation)
-    - [By Singularity](#by-singularity)
-    - [Without Singularity](#without-singularity)
-      - [Linux](#linux)
-      - [Windows](#windows)
-  - [Usage](#usage)
-    - [By Singularity](#by-singularity-1)
-    - [Without Singularity](#without-singularity-1)
-      - [Linux](#linux-1)
-      - [Windows](#windows-1)
-    - [Options](#options)
-      - [General options](#general-options)
-      - [IQ-TREE options](#iq-tree-options)
-      - [CONSEL options](#consel-options)
-      - [Output options](#output-options)
-    - [Examples of usage](#examples-of-usage)
-  - [Output](#output)
+## Index <!-- omit in toc -->
+
+- [Citation](#citation)
+- [Dependencies](#dependencies)
+- [Installation](#installation)
+  - [By Singularity](#by-singularity)
+  - [Without Singularity](#without-singularity)
+    - [Linux](#linux)
+    - [Windows](#windows)
+- [Usage](#usage)
+  - [By Singularity](#by-singularity-1)
+  - [Without Singularity](#without-singularity-1)
+    - [Linux](#linux-1)
+    - [Windows](#windows-1)
+  - [Options](#options)
+    - [General options](#general-options)
+    - [IQ-TREE options](#iq-tree-options)
+    - [CONSEL options](#consel-options)
+    - [Output options](#output-options)
+  - [Examples of usage](#examples-of-usage)
+- [Output](#output)
 
 ## Citation
 
@@ -45,6 +46,14 @@ Under preparation
   - citation: Shimodaira H., Hasegawa M. (2001). CONSEL: for assessing the confidence of phylogenetic tree selection. *Bioinformatics*. Dec;17(12):1246-7. doi: 10.1093/bioinformatics/17.12.1246.
 
 ## Installation
+
+Whichever installation type you select, you have to clone this repository in advance.
+**DO NOT** use the `main` branch for installation.
+You should checkout the tag associated with target version of this software (In `git clone` command, `-b TAG` option is usable).
+
+```bash
+git clone git@github.com:MEMlabo/AUTOEB.git -b v1.1.1
+```
 
 ### By Singularity
 
@@ -156,6 +165,25 @@ Execute `scripts/exec_autoeb.ps1`.
 |      |  `--iqtree-param`  |        file / null        |    -     | The text file with optional parameters used in executing IQ-TREE                    |
 | `-b` |   `--bootstrap`    | int (\>= 1000) /`100,000` |    -     | Specifies the number of replicates by RELL-bootstrap in makermt (in CONSEL package) |
 |      | `--iqtree-verbose` |           flag            |    -     | IQ-TREE log become redirected to stdout.                                            |
+
+When specify `--iqtree-param` option, specify a text file which represents parameters to give in running IQ-TREE.
+In loading the text file, new line (`\n`) is replaced by white space.
+
+<details>
+<summary>Example</summary>
+
+AUTOEB Command:
+```bash
+autoeb -s seq.fasta -t ml.tree -m LG+F+G -o autoeb --iqtree-param iqtree-parameters.txt
+```
+
+`iqtree-parameters.txt`:
+```text
+--mem 100G
+--safe
+```
+
+</details>
 
 #### CONSEL options
 
