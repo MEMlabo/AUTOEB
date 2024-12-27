@@ -27,7 +27,9 @@ Technical documents are [here](docs/Index.md).
 
 ## Citation
 
-Under preparation
+Bamba K., Harada R., Inagaki Y. (2024) AUTOEB: A Software for Systematically Evaluating Bipartitions in a Phylogenetic Tree Employing an Approximately Unbiased Test. *IPSJ Transactions on Bioinformatics*, **17**: 72–82.
+
+DOI: [10.2197/ipsjtbio.17.72](https://doi.org/10.2197/ipsjtbio.17.72)
 
 ## Dependencies
 
